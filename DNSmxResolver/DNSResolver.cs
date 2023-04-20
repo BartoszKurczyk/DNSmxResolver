@@ -33,7 +33,7 @@ namespace DNSmxResolver
             SendRequest(_hostToResolve, ref socket);
 
             GetResponse(ref socket);
-            
+
             socket.Close();
 
             Raport = CreateRaport();
@@ -48,7 +48,7 @@ namespace DNSmxResolver
             raport.AppendLine();
             raport.AppendLine(String.Format("|{0,-15}|{1,-5}|{2,-5}|{3,-5}|{4,-8}|{5,-50}|", "Domain", "Type", "Class", "TTL", "Priority", "Target"));
 
-            foreach (var raportBody in _raportBodies.OrderBy(x=>x.Priority))
+            foreach (var raportBody in _raportBodies.OrderBy(x => x.Priority))
             {
                 raport.AppendLine(String.Format("|{0,-15}|{1,-5}|{2,-5}|{3,-5}|{4,-8}|{5,-50}|", raportBody.DomainName, raportBody.Type, raportBody.Class, raportBody.TTL,
                     raportBody.Priority, raportBody.HostName));
@@ -107,6 +107,8 @@ namespace DNSmxResolver
 
             raportBody.Type = typeAndClass[0];
             raportBody.Class = typeAndClass[1];
+            if (!raportBody.Class.Equals("IN") || !raportBody.Type.Equals("MX"))
+                return;
 
             raportBody.TTL = FourBytesToInt(rBuffer, ref actualIterator);
             actualIterator += 2;
@@ -115,6 +117,7 @@ namespace DNSmxResolver
 
             var host = ReadTillZero(rBuffer, ref actualIterator);
             raportBody.HostName = string.Join(".", host);
+
             _raportBodies.Add(raportBody);
         }
 
