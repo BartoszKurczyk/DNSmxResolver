@@ -58,7 +58,7 @@ namespace DNSmxResolver
 
         private void SendRequest(string host, ref Socket socket)
         {
-            byte[] query = { 0x46, 0x5A };
+            byte[] query = { 0x47, 0x5A };
             byte[] flags = { 0x01, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
 
             query = query.Concat(flags).ToArray();

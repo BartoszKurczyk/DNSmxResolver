@@ -3,40 +3,40 @@ using DNSmxResolver;
 using DNSmxV2;
 using System.Text;
 
-ProgramArgumensResolver.ResolveArgs(args);
+ProgramArgumensResolver.Instance.ResolveArgs(args);
 
-if (!ProgramArgumensResolver.argsValid)
+if (!ProgramArgumensResolver.Instance.argsValid)
 {
-    Console.WriteLine(ProgramArgumensResolver.errorMessage);
+    Console.WriteLine(ProgramArgumensResolver.Instance.errorMessage);
     return;
 }
 
-if (ProgramArgumensResolver.hosts.Count == 1)
+if (ProgramArgumensResolver.Instance.hosts.Count == 1)
 {
     DNSResolver resolver;
-    if (ProgramArgumensResolver.dns != string.Empty)
-        resolver = new DNSResolver(ProgramArgumensResolver.hosts.First(), ProgramArgumensResolver.dns);
+    if (ProgramArgumensResolver.Instance.dns != string.Empty)
+        resolver = new DNSResolver(ProgramArgumensResolver.Instance.hosts.First(), ProgramArgumensResolver.Instance.dns);
     else
-        resolver = new DNSResolver(ProgramArgumensResolver.hosts.First());
+        resolver = new DNSResolver(ProgramArgumensResolver.Instance.hosts.First());
 
     resolver.Resolve();
 
     Console.WriteLine(resolver.Raport);
-    if (ProgramArgumensResolver.outputFile != string.Empty)
+    if (ProgramArgumensResolver.Instance.outputFile != string.Empty)
     {
-        File.WriteAllText(ProgramArgumensResolver.outputFile, resolver.Raport);
+        File.WriteAllText(ProgramArgumensResolver.Instance.outputFile, resolver.Raport);
     }
 }
-else if (ProgramArgumensResolver.hosts.Count > 0)
+else if (ProgramArgumensResolver.Instance.hosts.Count > 0)
 {
     List<DNSResolver> resolvers = new List<DNSResolver>();
     List<Thread> threads = new List<Thread>();
 
-    foreach (var host in ProgramArgumensResolver.hosts)
+    foreach (var host in ProgramArgumensResolver.Instance.hosts)
     {
         DNSResolver resolver;
-        if (ProgramArgumensResolver.dns != string.Empty)
-            resolver = new DNSResolver(host, ProgramArgumensResolver.dns);
+        if (ProgramArgumensResolver.Instance.dns != string.Empty)
+            resolver = new DNSResolver(host, ProgramArgumensResolver.Instance.dns);
         else
             resolver = new DNSResolver(host);
 
@@ -58,9 +58,9 @@ else if (ProgramArgumensResolver.hosts.Count > 0)
     }
 
     Console.WriteLine(stringBuilder.ToString());
-    if(ProgramArgumensResolver.outputFile != string.Empty)
+    if(ProgramArgumensResolver.Instance.outputFile != string.Empty)
     {
-        File.WriteAllText(ProgramArgumensResolver.outputFile, stringBuilder.ToString());
+        File.WriteAllText(ProgramArgumensResolver.Instance.outputFile, stringBuilder.ToString());
     }
 
 }

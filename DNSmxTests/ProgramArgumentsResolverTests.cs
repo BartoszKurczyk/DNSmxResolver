@@ -8,22 +8,22 @@ namespace DNSmxTests
         [TestCleanup()]
         public void Cleanup()
         {
-            ProgramArgumensResolver.hosts.Clear();
-            ProgramArgumensResolver.inputFile = string.Empty;
-            ProgramArgumensResolver.outputFile = string.Empty;
-            ProgramArgumensResolver.argsValid = false;
-            ProgramArgumensResolver.errorMessage = string.Empty;
+            ProgramArgumensResolver.Instance.hosts.Clear();
+            ProgramArgumensResolver.Instance.inputFile = string.Empty;
+            ProgramArgumensResolver.Instance.outputFile = string.Empty;
+            ProgramArgumensResolver.Instance.argsValid = false;
+            ProgramArgumensResolver.Instance.errorMessage = string.Empty;
         }
         [TestMethod]
         public void WithOneDomain()
         {
             string[] args = { "gmail.com" };
 
-            ProgramArgumensResolver.ResolveArgs(args);
+            ProgramArgumensResolver.Instance.ResolveArgs(args);
 
-            Assert.IsTrue(ProgramArgumensResolver.argsValid, "");
-            Assert.IsTrue(ProgramArgumensResolver.hosts.Count == 1, "");
-            Assert.IsTrue(ProgramArgumensResolver.hosts[0].Equals("gmail.com"));
+            Assert.IsTrue(ProgramArgumensResolver.Instance.argsValid, "");
+            Assert.IsTrue(ProgramArgumensResolver.Instance.hosts.Count == 1, "");
+            Assert.IsTrue(ProgramArgumensResolver.Instance.hosts[0].Equals("gmail.com"));
         }
 
         [TestMethod]
@@ -31,14 +31,14 @@ namespace DNSmxTests
         {
             string[] args = { "gmail.com", "hotmail.com", "aol.com", "yahoo.com" };
 
-            ProgramArgumensResolver.ResolveArgs(args);
+            ProgramArgumensResolver.Instance.ResolveArgs(args);
 
-            Assert.IsTrue(ProgramArgumensResolver.argsValid, "");
-            Assert.IsTrue(ProgramArgumensResolver.hosts.Count == 4, "");
-            Assert.IsTrue(ProgramArgumensResolver.hosts[0].Equals("gmail.com"));
-            Assert.IsTrue(ProgramArgumensResolver.hosts[1].Equals("hotmail.com"));
-            Assert.IsTrue(ProgramArgumensResolver.hosts[2].Equals("aol.com"));
-            Assert.IsTrue(ProgramArgumensResolver.hosts[3].Equals("yahoo.com"));
+            Assert.IsTrue(ProgramArgumensResolver.Instance.argsValid, "");
+            Assert.IsTrue(ProgramArgumensResolver.Instance.hosts.Count == 4, "");
+            Assert.IsTrue(ProgramArgumensResolver.Instance.hosts[0].Equals("gmail.com"));
+            Assert.IsTrue(ProgramArgumensResolver.Instance.hosts[1].Equals("hotmail.com"));
+            Assert.IsTrue(ProgramArgumensResolver.Instance.hosts[2].Equals("aol.com"));
+            Assert.IsTrue(ProgramArgumensResolver.Instance.hosts[3].Equals("yahoo.com"));
         }
 
         [TestMethod]
@@ -46,16 +46,16 @@ namespace DNSmxTests
         {
             string[] args = { "gmail.com", "hotmail.com", "aol.com", "yahoo.com", "-dns", "8.8.8.8" };
 
-            ProgramArgumensResolver.ResolveArgs(args);
+            ProgramArgumensResolver.Instance.ResolveArgs(args);
 
-            Assert.IsTrue(ProgramArgumensResolver.argsValid);
-            Assert.IsTrue(ProgramArgumensResolver.hosts.Count == 4);
-            Assert.IsTrue(ProgramArgumensResolver.hosts[0].Equals("gmail.com"));
-            Assert.IsTrue(ProgramArgumensResolver.hosts[1].Equals("hotmail.com"));
-            Assert.IsTrue(ProgramArgumensResolver.hosts[2].Equals("aol.com"));
-            Assert.IsTrue(ProgramArgumensResolver.hosts[3].Equals("yahoo.com"));
+            Assert.IsTrue(ProgramArgumensResolver.Instance.argsValid);
+            Assert.IsTrue(ProgramArgumensResolver.Instance.hosts.Count == 4);
+            Assert.IsTrue(ProgramArgumensResolver.Instance.hosts[0].Equals("gmail.com"));
+            Assert.IsTrue(ProgramArgumensResolver.Instance.hosts[1].Equals("hotmail.com"));
+            Assert.IsTrue(ProgramArgumensResolver.Instance.hosts[2].Equals("aol.com"));
+            Assert.IsTrue(ProgramArgumensResolver.Instance.hosts[3].Equals("yahoo.com"));
 
-            Assert.IsTrue(ProgramArgumensResolver.dns.Equals("8.8.8.8"));
+            Assert.IsTrue(ProgramArgumensResolver.Instance.dns.Equals("8.8.8.8"));
         }
 
         [TestMethod]
@@ -63,9 +63,9 @@ namespace DNSmxTests
         {
             string[] args = { "gmail.com", "-dns", "8.8.8.8", "-dns", "1.1.1.1" };
 
-            ProgramArgumensResolver.ResolveArgs(args);
+            ProgramArgumensResolver.Instance.ResolveArgs(args);
 
-            Assert.IsFalse(ProgramArgumensResolver.argsValid);
+            Assert.IsFalse(ProgramArgumensResolver.Instance.argsValid);
         }
 
         [TestMethod]
@@ -73,16 +73,16 @@ namespace DNSmxTests
         {
             string[] args = { "gmail.com", "hotmail.com", "aol.com", "yahoo.com", "-input", "TestResources\\testFile.txt" };
 
-            ProgramArgumensResolver.ResolveArgs(args);
+            ProgramArgumensResolver.Instance.ResolveArgs(args);
 
-            Assert.IsTrue(ProgramArgumensResolver.argsValid);
-            Assert.IsTrue(ProgramArgumensResolver.hosts.Count == 4);
-            Assert.IsTrue(ProgramArgumensResolver.hosts[0].Equals("test1"));
-            Assert.IsTrue(ProgramArgumensResolver.hosts[1].Equals("test2"));
-            Assert.IsTrue(ProgramArgumensResolver.hosts[2].Equals("test3"));
-            Assert.IsTrue(ProgramArgumensResolver.hosts[3].Equals("test4"));
+            Assert.IsTrue(ProgramArgumensResolver.Instance.argsValid);
+            Assert.IsTrue(ProgramArgumensResolver.Instance.hosts.Count == 4);
+            Assert.IsTrue(ProgramArgumensResolver.Instance.hosts[0].Equals("test1"));
+            Assert.IsTrue(ProgramArgumensResolver.Instance.hosts[1].Equals("test2"));
+            Assert.IsTrue(ProgramArgumensResolver.Instance.hosts[2].Equals("test3"));
+            Assert.IsTrue(ProgramArgumensResolver.Instance.hosts[3].Equals("test4"));
 
-            Assert.IsTrue(ProgramArgumensResolver.inputFile.Equals("TestResources\\testFile.txt"));
+            Assert.IsTrue(ProgramArgumensResolver.Instance.inputFile.Equals("TestResources\\testFile.txt"));
         }
 
         [TestMethod]
@@ -90,9 +90,9 @@ namespace DNSmxTests
         {
             string[] args = { "gmail.com", "-input", "TestResources\\testFile.txt", "-input", "TestResources\\testFile2.txt" };
 
-            ProgramArgumensResolver.ResolveArgs(args);
+            ProgramArgumensResolver.Instance.ResolveArgs(args);
 
-            Assert.IsFalse(ProgramArgumensResolver.argsValid);
+            Assert.IsFalse(ProgramArgumensResolver.Instance.argsValid);
         }
 
         [TestMethod]
@@ -100,16 +100,16 @@ namespace DNSmxTests
         {
             string[] args = { "gmail.com", "hotmail.com", "aol.com", "yahoo.com", "-output", "TestResources\\output.txt" };
 
-            ProgramArgumensResolver.ResolveArgs(args);
+            ProgramArgumensResolver.Instance.ResolveArgs(args);
 
-            Assert.IsTrue(ProgramArgumensResolver.argsValid);
-            Assert.IsTrue(ProgramArgumensResolver.hosts.Count == 4);
-            Assert.IsTrue(ProgramArgumensResolver.hosts[0].Equals("gmail.com"));
-            Assert.IsTrue(ProgramArgumensResolver.hosts[1].Equals("hotmail.com"));
-            Assert.IsTrue(ProgramArgumensResolver.hosts[2].Equals("aol.com"));
-            Assert.IsTrue(ProgramArgumensResolver.hosts[3].Equals("yahoo.com"));
+            Assert.IsTrue(ProgramArgumensResolver.Instance.argsValid);
+            Assert.IsTrue(ProgramArgumensResolver.Instance.hosts.Count == 4);
+            Assert.IsTrue(ProgramArgumensResolver.Instance.hosts[0].Equals("gmail.com"));
+            Assert.IsTrue(ProgramArgumensResolver.Instance.hosts[1].Equals("hotmail.com"));
+            Assert.IsTrue(ProgramArgumensResolver.Instance.hosts[2].Equals("aol.com"));
+            Assert.IsTrue(ProgramArgumensResolver.Instance.hosts[3].Equals("yahoo.com"));
 
-            Assert.IsTrue(ProgramArgumensResolver.outputFile.Equals("TestResources\\output.txt"));
+            Assert.IsTrue(ProgramArgumensResolver.Instance.outputFile.Equals("TestResources\\output.txt"));
         }
 
         [TestMethod]
@@ -117,9 +117,9 @@ namespace DNSmxTests
         {
             string[] args = { "gmail.com", "-output", "TestResources\\output.txt", "-output", "TestResources\\output2.txt" };
 
-            ProgramArgumensResolver.ResolveArgs(args);
+            ProgramArgumensResolver.Instance.ResolveArgs(args);
 
-            Assert.IsFalse(ProgramArgumensResolver.argsValid);
+            Assert.IsFalse(ProgramArgumensResolver.Instance.argsValid);
         }
     }
 }

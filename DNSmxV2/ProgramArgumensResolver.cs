@@ -6,16 +6,30 @@ using System.Threading.Tasks;
 
 namespace DNSmxV2
 {
-    public static class ProgramArgumensResolver
+    public sealed class ProgramArgumensResolver
     {
-        public static List<string> hosts = new List<string>();
-        public static string inputFile = string.Empty;
-        public static string outputFile = string.Empty;
-        public static string dns = string.Empty;
-        public static bool argsValid = false;
-        public static string errorMessage = string.Empty;
+        public List<string> hosts = new List<string>();
+        public string inputFile = string.Empty;
+        public string outputFile = string.Empty;
+        public string dns = string.Empty;
+        public bool argsValid = false;
+        public string errorMessage = string.Empty;
 
-        public static void ResolveArgs(string[] args)
+        private ProgramArgumensResolver() { }
+
+        private static ProgramArgumensResolver _instance;
+
+        public static ProgramArgumensResolver Instance
+        {
+            get
+            {
+                if (_instance == null)
+                    _instance = new ProgramArgumensResolver();
+                return _instance;
+            }
+        }
+
+        public void ResolveArgs(string[] args)
         {
             ValidateArgs(args);
             if (!argsValid) return;
@@ -42,7 +56,7 @@ namespace DNSmxV2
                 }
             }
 
-            if(inputFile!= string.Empty)
+            if (inputFile != string.Empty)
             {
                 hosts.Clear();
                 string textFromFile = File.ReadAllText(inputFile);
@@ -50,7 +64,7 @@ namespace DNSmxV2
                 hosts.AddRange(textFromFile.Split(";"));
             }
         }
-        private static void ValidateArgs(string[] args)
+        private void ValidateArgs(string[] args)
         {
             var argsList = args.ToList();
 
@@ -73,7 +87,7 @@ namespace DNSmxV2
                 return;
             }
 
-            if(argsList.Count==0)
+            if (argsList.Count == 0)
             {
                 argsValid = false;
                 errorMessage = "There is zero arguments";
