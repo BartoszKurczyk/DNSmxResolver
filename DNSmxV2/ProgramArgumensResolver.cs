@@ -61,7 +61,7 @@ namespace DNSmxV2
                 hosts.Clear();
                 string textFromFile = File.ReadAllText(inputFile);
 
-                hosts.AddRange(textFromFile.Split(";"));
+                hosts.AddRange(textFromFile.Split(";").Select(x=>x.Replace("\r\n","")));
             }
         }
         private void ValidateArgs(string[] args)

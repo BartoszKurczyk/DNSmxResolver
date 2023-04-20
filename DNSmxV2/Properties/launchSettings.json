@@ -2,7 +2,7 @@
   "profiles": {
     "DNSmxV2": {
       "commandName": "Project",
-      "commandLineArgs": "-input Resources\\domains.txt -output output.txt"
+      "commandLineArgs": "-input Resources\\domains.txt"
     }
   }
 }
