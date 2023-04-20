@@ -1,1 +1,1 @@
-﻿gmail.com
+gmail.com;hotmail.com;aol.com;yahoo.com;outlook.com;icloud.com;zaho.com;op.pl
